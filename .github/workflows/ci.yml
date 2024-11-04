@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Install dependencies
+        run: |
+          pip install uv --disable-pip-version-check
+          uv export --no-hashes | uv pip install -r - --system
+      - name: Lint with Ruff
+        run: |
+          ruff check --output-format github
+          ruff format --check --diff
+      - name: Type check with Pyright
+        run: |
+          yarn global add pyright
+          pyright
+  typos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: crate-ci/typos@master
