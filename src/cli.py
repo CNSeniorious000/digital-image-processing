@@ -1,5 +1,6 @@
 from typer import Typer
 
+from scripts.scale import Algorithm
 from utils.log import patch_print
 
 patch_print()
@@ -31,6 +32,22 @@ def rotate(angle: float, file: str = "lena.bmp"):
     from scripts.rotate import rotate
 
     rotate(file, angle)
+
+
+@app.command()
+def scale(
+    sx: float,
+    sy: float,
+    algorithm: Algorithm = Algorithm.bilinear,
+    file: str = "lena.bmp",
+):
+    """Scale an image by sx and sy"""
+
+    print(f"Scaling {file} by ({sx}, {sy})")
+
+    from scripts.scale import scale
+
+    scale(file, sx, sy, algorithm)
 
 
 if __name__ == "__main__":
