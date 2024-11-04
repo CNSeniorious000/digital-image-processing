@@ -3,8 +3,6 @@ from numpy import zeros_like
 from utils.read import read_grayscale
 from utils.show import show
 
-original = read_grayscale("lena.bmp")
-
 
 def translate(file: str, dx: int, dy: int):  # TODO: support float dx, dy
     img = read_grayscale(file)

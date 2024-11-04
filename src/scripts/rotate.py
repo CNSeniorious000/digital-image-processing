@@ -6,8 +6,6 @@ from numpy import zeros_like
 from utils.read import read_grayscale
 from utils.show import show
 
-original = read_grayscale("lena.bmp")
-
 
 def rotate(file: str, angle: float, radians=False):  # TODO: support specifying origin
     img = read_grayscale(file)
