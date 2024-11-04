@@ -22,5 +22,16 @@ def translate(dx: int, dy: int, file: str = "lena.bmp"):
     translate(file, dx, dy)
 
 
+@app.command()
+def rotate(angle: float, file: str = "lena.bmp"):
+    """Rotate an image by angle"""
+
+    print(f"Rotating {file} by {angle} degrees")
+
+    from scripts.rotate import rotate
+
+    rotate(file, angle)
+
+
 if __name__ == "__main__":
     app()
