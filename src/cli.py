@@ -1,5 +1,6 @@
 from typer import Typer
 
+from scripts.filter import Padding
 from scripts.scale import Algorithm
 from utils.log import patch_print
 
@@ -48,6 +49,21 @@ def scale(
     from scripts.scale import scale
 
     scale(file, sx, sy, algorithm)
+
+
+@app.command()
+def mean(
+    size: int,
+    padding: Padding = Padding.zero,
+    file: str = "lena.bmp",
+):
+    """Apply a mean filter to an image"""
+
+    print(f"Applying mean filter to {file} with size {size} and padding {padding}")
+
+    from scripts.filter import mean_filter
+
+    mean_filter(file, size, padding)
 
 
 if __name__ == "__main__":
