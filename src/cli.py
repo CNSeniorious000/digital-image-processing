@@ -66,5 +66,20 @@ def mean(
     mean_filter(file, size, padding)
 
 
+@app.command()
+def median(
+    size: int,
+    padding: Padding = Padding.zero,
+    file: str = "lena.bmp",
+):
+    """Apply a median filter to an image"""
+
+    print(f"Applying median filter to {file} with size {size} and padding {padding}")
+
+    from scripts.filter import median_filter
+
+    median_filter(file, size, padding)
+
+
 if __name__ == "__main__":
     app()
