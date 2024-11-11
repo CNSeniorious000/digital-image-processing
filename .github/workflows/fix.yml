@@ -1,0 +1,26 @@
+name: autofix.ci
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: 2.x
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Run formatters
+        continue-on-error: true
+        run: |
+          deno fmt
+          pip install uv --disable-pip-version-check
+          uv export --only-dev --no-hashes | uv pip install -r - --system
+          ruff format
+          ruff check --fix
+      - uses: autofix-ci/action@v1.3.1
+        with:
+          fail-fast: false
