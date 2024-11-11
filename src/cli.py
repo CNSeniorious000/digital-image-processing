@@ -12,9 +12,11 @@ app = Typer(
     add_completion=False,
 )
 
+LENA = "lena.bmp"
+
 
 @app.command()
-def translate(dx: int, dy: int, file: str = "lena.bmp"):
+def translate(dx: int, dy: int, file: str = LENA):
     """Translate an image by dx and dy"""
 
     print(f"Translating {file} by ({dx}, {dy})")
@@ -25,7 +27,7 @@ def translate(dx: int, dy: int, file: str = "lena.bmp"):
 
 
 @app.command()
-def rotate(angle: float, file: str = "lena.bmp"):
+def rotate(angle: float, file: str = LENA):
     """Rotate an image by angle"""
 
     print(f"Rotating {file} by {angle} degrees")
@@ -40,7 +42,7 @@ def scale(
     sx: float,
     sy: float,
     algorithm: Algorithm = Algorithm.bilinear,
-    file: str = "lena.bmp",
+    file: str = LENA,
 ):
     """Scale an image by sx and sy"""
 
@@ -55,7 +57,7 @@ def scale(
 def mean(
     size: int,
     padding: Padding = Padding.zero,
-    file: str = "lena.bmp",
+    file: str = LENA,
 ):
     """Apply a mean filter to an image"""
 
@@ -70,7 +72,7 @@ def mean(
 def median(
     size: int,
     padding: Padding = Padding.zero,
-    file: str = "lena.bmp",
+    file: str = LENA,
 ):
     """Apply a median filter to an image"""
 
