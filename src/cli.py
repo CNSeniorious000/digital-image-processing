@@ -1,4 +1,4 @@
-from typer import Typer
+from typer import Argument, Typer
 
 from scripts.filter import Padding
 from scripts.scale import Algorithm
@@ -81,6 +81,50 @@ def median(
     from scripts.filter import median_filter
 
     median_filter(file, size, padding)
+
+
+@app.command()
+def prewitt(file: str = LENA):
+    """Apply Prewitt operators to an image"""
+
+    print(f"Applying Prewitt operators to {file}")
+
+    from scripts.conv import prewitt
+
+    prewitt(file)
+
+
+@app.command()
+def sobel(file: str = LENA):
+    """Apply Sobel operators to an image"""
+
+    print(f"Applying Sobel operators to {file}")
+
+    from scripts.conv import sobel
+
+    sobel(file)
+
+
+@app.command()
+def laplacian(file: str = LENA, neighbors: int = Argument(8, help="4 or 8")):
+    """Apply Laplacian operator to an image"""
+
+    print(f"Applying Laplacian operator to {file}")
+
+    from scripts.conv import laplacian
+
+    laplacian(file, neighbors)  # type: ignore
+
+
+@app.command()
+def sharpen(file: str = LENA, neighbors: int = Argument(8, help="4 or 8")):
+    """Apply Laplacian operator to sharpen an image"""
+
+    print(f"Applying Laplacian operator to sharpen {file}")
+
+    from scripts.conv import laplacian
+
+    laplacian(file, neighbors, sharpen=True)  # type: ignore
 
 
 if __name__ == "__main__":
