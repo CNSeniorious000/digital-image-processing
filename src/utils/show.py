@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from utils.frame import get_last_frame_name
+from utils.frame import get_caller_name
 
 if TYPE_CHECKING:
     from numpy import ndarray
@@ -11,5 +11,5 @@ if TYPE_CHECKING:
 def show(mat: ndarray):
     from cv2 import imshow, waitKey
 
-    imshow(get_last_frame_name(), mat)
+    imshow(get_caller_name(), mat)
     waitKey(0)

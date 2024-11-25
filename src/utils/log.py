@@ -4,7 +4,7 @@ from functools import cache
 from logging import Formatter, LogRecord, StreamHandler, getLogger
 from time import process_time_ns
 
-from utils.frame import get_last_frame_name
+from utils.frame import get_caller_name
 
 get_logger = cache(getLogger)
 
@@ -58,7 +58,7 @@ logger.addHandler(RichConsoleHandler())
 
 
 def log(*message: str):
-    logger = get_logger(get_last_frame_name())
+    logger = get_logger(get_caller_name())
     logger.info(message[0] if len(message) == 1 else message)
 
 

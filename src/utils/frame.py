@@ -10,5 +10,6 @@ def get_last_frame(depth=0):
     return frame
 
 
-def get_last_frame_name():
-    return get_last_frame(1).f_globals["__name__"]
+def get_caller_name():
+    frame = get_last_frame(1)
+    return frame.f_globals["__name__"] + "." + frame.f_code.co_name
