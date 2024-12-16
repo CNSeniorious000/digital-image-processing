@@ -1,6 +1,7 @@
 from typer import Argument, Typer
 
 from scripts.filter import Padding
+from scripts.freq import freq_domain
 from scripts.scale import Algorithm
 from utils.log import patch_print
 
@@ -125,6 +126,23 @@ def sharpen(file: str = LENA, neighbors: int = Argument(8, help="4 or 8")):
     from scripts.conv import laplacian
 
     laplacian(file, neighbors, sharpen=True)  # type: ignore
+
+
+@app.command()
+def freq(file: str = LENA, d0: int = Argument(50, help="Cutoff frequency")):
+    """Apply frequency domain filters to an image"""
+    freq_domain(file, d0)
+
+
+@app.command()
+def pseudocolor(file: str = LENA):
+    """Apply pseudocolor enhancement to a grayscale image"""
+
+    print(f"Applying pseudocolor enhancement to {file}")
+
+    from scripts.pseudocolor import pseudocolor
+
+    pseudocolor(file)
 
 
 if __name__ == "__main__":
