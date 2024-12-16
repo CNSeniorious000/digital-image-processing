@@ -23,6 +23,13 @@ includes = ["src", "cli.py"]
 dev = [
     "ruff~=0.7.2",
 ]
+dl = [
+    "torch~=2.5.1",
+    "torchvision~=0.20.1",
+]
+
+[tool.ruff]
+line-length = 150
 
 [tool.ruff.lint]
 extend-select = [
