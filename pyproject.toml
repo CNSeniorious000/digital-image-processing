@@ -17,13 +17,14 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [tool.pdm.build]
-includes = ["src", "cli.py"]
+includes = ["src"]
 
 [dependency-groups]
 dev = [
     "ruff~=0.7.2",
 ]
 dl = [
+    "torchsummary~=1.5.1",
     "torch~=2.5.1",
     "torchvision~=0.20.1",
 ]

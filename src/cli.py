@@ -1,5 +1,6 @@
 from typer import Argument, Typer
 
+from scripts.dl import dl_app
 from scripts.filter import Padding
 from scripts.scale import Algorithm
 from utils.log import patch_print
@@ -126,6 +127,8 @@ def sharpen(file: str = LENA, neighbors: int = Argument(8, help="4 or 8")):
 
     laplacian(file, neighbors, sharpen=True)  # type: ignore
 
+
+app.add_typer(dl_app)
 
 if __name__ == "__main__":
     app()

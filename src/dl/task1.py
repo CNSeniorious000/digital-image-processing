@@ -1,36 +1,25 @@
 import torch
-import torch.nn as nn
-import torchvision
-import torchvision.transforms as transforms
+from torch import Tensor, nn
+from torch.optim.adam import Adam
+from torchsummary import summary
+
+from utils.mnist import cache_root, test_loader, train_loader
+from utils.torch import device
 
 # ==================================================================
 # 1. 根据示例代码写出每一层的网络结构
 # ==================================================================
 
-# 判断GPU是否可用，配置设备
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
 # 超参数设置
 num_epochs = 10
 num_classes = 10
-batch_size = 128
 learning_rate = 0.001
-
-# 准备训练和测试数据集
-train_dataset = torchvision.datasets.MNIST(root="../../data/", train=True, transform=transforms.ToTensor(), download=True)
-
-test_dataset = torchvision.datasets.MNIST(root="../../data/", train=False, transform=transforms.ToTensor())
-
-# 创建数据加载器
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=1, shuffle=False)
 
 
 # 构建卷积神经网络
 class ConvNet(nn.Module):
     def __init__(self, num_classes=10):
-        super(ConvNet, self).__init__()
+        super().__init__()
         self.layer1_conv = nn.Sequential(nn.Conv2d(1, 10, kernel_size=3, stride=1, padding=1), nn.ReLU())
         self.layer2_pool = nn.MaxPool2d(kernel_size=2, stride=2)
         self.layer3_conv = nn.Sequential(nn.Conv2d(10, 32, kernel_size=5, stride=1, padding=0), nn.ReLU())
@@ -51,7 +40,7 @@ model = ConvNet(num_classes).to(device)
 
 # 定义损失函数与优化器
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+optimizer = Adam(model.parameters(), lr=learning_rate)
 
 
 # 训练网络
@@ -82,8 +71,8 @@ def test():
         correct = 0
         total = 0
         for images, labels in test_loader:
-            images = images.to(device)
-            labels = labels.to(device)
+            images: Tensor = images.to(device)
+            labels: Tensor = labels.to(device)
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
@@ -92,12 +81,10 @@ def test():
         print(f"测试集准确率为: {100 * correct / total} %")
 
     # 保存模型文件
-    torch.save(model.state_dict(), "task1.ckpt")
+    torch.save(model.state_dict(), cache_root / "task1.ckpt")
 
 
-if __name__ == "__main__":
-    # 查看网络结构和参数
-    # summary(model, input_size=(1,28,28))
-
+def main():
+    summary(model, input_size=(1, 28, 28))
     train()
     test()
