@@ -5,7 +5,7 @@ dl_app = Typer(name="dl", help="Deep Learning Tasks", no_args_is_help=True)
 
 @dl_app.command()
 def task1():
-    from dl.task1 import main
+    from dl.lab1.task1 import main
 
     main()
 
