@@ -61,6 +61,16 @@ G = Generator()
 class Discriminator(nn.Module):
     def __init__(self):
         super().__init__()
+        self.layer1_conv = nn.Sequential(nn.Conv2d(1, 64, kernel_size=3, stride=2, padding=1), nn.BatchNorm2d(64), nn.LeakyReLU(0.2))
+        self.layer2_conv = nn.Sequential(nn.Conv2d(64, 32, kernel_size=3, stride=2, padding=1), nn.BatchNorm2d(32), nn.LeakyReLU(0.2))
+        self.layer3_conv = nn.Sequential(nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1), nn.BatchNorm2d(16), nn.LeakyReLU(0.2))
+        self.layer4_conv = nn.Sequential(nn.Conv2d(16, 1, kernel_size=3, stride=2, padding=0), nn.Sigmoid())
+
+    def forward(self, x):
+        out = self.layer1_conv(x)
+        out = self.layer2_conv(out)
+        out = self.layer3_conv(out)
+        out = self.layer4_conv(out)
 
         return out
 
