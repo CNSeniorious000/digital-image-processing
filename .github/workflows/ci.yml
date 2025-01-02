@@ -7,21 +7,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: 3.12
+          enable-cache: true
+          cache-dependency-glob: pyproject.toml
       - name: Install dependencies
         run: |
-          pip install uv --disable-pip-version-check
-          uv export --no-hashes | uv pip install -r - --system
+          uv export --no-hashes | uv pip install -r - basedpyright
       - name: Lint with Ruff
         run: |
           ruff check --output-format github
           ruff format --check --diff
       - name: Type check with Pyright
         run: |
-          yarn global add pyright
-          pyright
+          basedpyright
   typos:
     runs-on: ubuntu-latest
     steps:
